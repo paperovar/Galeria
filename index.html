@@ -3,560 +3,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galeria Prac Uczniów w Tinkercad</title>
+    <title>Galeria Projektów 3D - Klasa 5</title>
     <style>
+        /* Główne style i zmienne kolorystyczne nawiązujące do Tinkercad */
         :root {
-            --primary-color: #1a5f7a;
-            --secondary-color: #57c5b6;
+            --primary-blue: #0082c8;
+            --primary-hover: #006bb3;
             --bg-color: #f4f7f6;
             --card-bg: #ffffff;
-            --text-color: #2c3e50;
-            --accent-color: #e74c3c;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            --text-main: #333333;
+            --text-muted: #666666;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
             line-height: 1.6;
         }
 
-        .banner-container {
-            width: 100%;
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        .banner-img {
-            max-width: 100%;
+        /* Stylizacja Banera */
+        .banner-wrapper {
+            width: 100%;
+            background-color: #eaf3f9; /* Delikatne tło pod banerem */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .banner {
+            max-width: 1000px;
+            width: 100%;
             height: auto;
             display: block;
             margin: 0 auto;
         }
 
-        header {
-            padding: 30px 20px;
-            text-align: center;
-            background: linear-gradient(135deg, var(--primary-color), #002b5b);
-            color: #fff;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .search-container {
-            max-width: 600px;
-            margin: -25px auto 40px auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .search-input {
-            width: 100%;
+        /* Panel nawigacyjny */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--card-bg);
             padding: 15px 25px;
-            font-size: 1rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        button {
+            background-color: var(--primary-blue);
+            color: white;
             border: none;
-            border-radius: 50px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            outline: none;
-            transition: all 0.3s ease;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            font-weight: bold;
         }
 
-        .search-input:focus {
-            box-shadow: 0 4px 20px rgba(87, 197, 182, 0.4);
-            transform: translateY(-2px);
+        button:hover {
+            background-color: var(--primary-hover);
         }
 
-        main {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px 60px 20px;
+        button:active {
+            transform: scale(0.98);
         }
 
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
-            gap: 30px;
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
         }
 
-        @media (max-width: 540px) {
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: white;
+            cursor: pointer;
+            flex-grow: 1;
+            max-width: 300px;
         }
 
-        .student-card {
+        /* Obszar wyświetlania projektów */
+        .gallery-section {
             background-color: var(--card-bg);
             border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-top: 5px solid var(--primary-color);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .student-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.12);
-        }
-
-        .card-header {
-            padding: 20px;
-            background-color: #fafbfc;
-            border-bottom: 1px solid #edf2f7;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
         }
 
         .student-name {
-            font-size: 1.25rem;
-            color: #1a202c;
-            font-weight: 600;
+            font-size: 28px;
+            color: var(--primary-blue);
+            margin-top: 0;
+            margin-bottom: 5px;
         }
 
-        .badge {
-            background-color: #ebf8ff;
-            color: #2b6cb0;
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-weight: 600;
+        .student-info {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-size: 14px;
         }
 
-        .card-body {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
+        /* Siatka projektów (dla wielu projektów jednego ucznia) */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            align-items: center;
             justify-content: center;
-            background-color: #fff;
-            flex-grow: 1;
         }
 
-        .iframe-wrapper {
+        .iframe-container {
             position: relative;
             width: 100%;
-            max-width: 450px;
-            aspect-ratio: 450/280;
-            background-color: #f7fafc;
+            padding-bottom: 62.25%; /* Proporcje dla Tinkercad iframe */
+            background-color: #f0f0f0;
             border-radius: 8px;
             overflow: hidden;
-            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
         }
 
-        .iframe-wrapper iframe {
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             border: none;
         }
 
-        footer {
-            text-align: center;
-            padding: 30px;
-            background-color: #1a202c;
-            color: #a0aec0;
-            font-size: 0.9rem;
-            border-top: 4px solid var(--secondary-color);
+        /* Status ładowania */
+        .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text-muted);
+            font-weight: bold;
+            z-index: 0;
+        }
+
+        /* Responsywność */
+        @media (max-width: 600px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            select {
+                max-width: 100%;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Miejsce na przesłany baner szkoły -->
-    <div class="banner-container">
-        <img src="baner.png" alt="Baner Szkoły" class="banner-img" onerror="this.style.display='none';">
+<!-- Baner na samej górze strony (poza głównym kontenerem) -->
+<div class="banner-wrapper">
+    <img src="baner.png" alt="Projekty 3D Klasy 5 - Tinkercad" class="banner" onerror="this.style.display='none'">
+</div>
+
+<div class="container">
+    <!-- Panel Sterowania (Karuzela) -->
+    <div class="controls">
+        <button id="btn-prev">❮ Poprzedni</button>
+        <select id="student-select" aria-label="Wybierz ucznia"></select>
+        <button id="btn-next">Następny ❯</button>
     </div>
 
-    <header>
-        <h1>Wirtualna Galeria Projektów 3D</h1>
-        <p>Prace naszych kreatywnych uczniów wykonane w programie Tinkercad</p>
-    </header>
-
-    <div class="search-container">
-        <input type="text" id="searchInput" class="search-input" placeholder="Wyszukaj ucznia po imieniu lub nazwisku...">
-    </div>
-
-    <main>
-        <div class="gallery-grid" id="galleryGrid">
-            <!-- Pętla generująca karty -->
-            
-            <div class="student-card" data-name="Damian Materski">
-                <div class="card-header">
-                    <span class="student-name">Damian Materski</span>
-                    <span class="badge">1 projekt</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/fKCftKgp6cq" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Gabriel Wichowski">
-                <div class="card-header">
-                    <span class="student-name">Gabriel Wichowski</span>
-                    <span class="badge">Projekty: 2</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/2XzJvpSOtSh" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/iDMZxvlXLEu" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Hanna Łukasik">
-                <div class="card-header">
-                    <span class="student-name">Hanna Łukasik</span>
-                    <span class="badge">1 projekt</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/4gvsNi8evmf" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Julia Guzik">
-                <div class="card-header">
-                    <span class="student-name">Julia Guzik</span>
-                    <span class="badge">1 projekt</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/j6cVVycZXBX" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Julia Jagodzińska">
-                <div class="card-header">
-                    <span class="student-name">Julia Jagodzińska</span>
-                    <span class="badge">1 projekt</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/aP0mwqCMwuY" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Liwia Zdunek">
-                <div class="card-header">
-                    <span class="student-name">Liwia Zdunek</span>
-                    <span class="badge">Projekty: 2</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/482CmAQ3uv9" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/edoy4am3pvQ" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Maciej Siemiński">
-                <div class="card-header">
-                    <span class="student-name">Maciej Siemiński</span>
-                    <span class="badge">1 projekt</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/2kFr3B9elBW" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Marlena Materska">
-                <div class="card-header">
-                    <span class="student-name">Marlena Materska</span>
-                    <span class="badge">Projekty: 2</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/kSbIN9wrZdT" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/akVCC8HqauC" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Martyna Cuper">
-                <div class="card-header">
-                    <span class="student-name">Martyna Cuper</span>
-                    <span class="badge">1 projekt</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/hfwfOZOzRDL" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Szymon Hałek">
-                <div class="card-header">
-                    <span class="student-name">Szymon Hałek</span>
-                    <span class="badge">Projekty: 2</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/kX03zdIh5aJ" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/e0Fm8oXdxqU" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Natan Rybkowski">
-                <div class="card-header">
-                    <span class="student-name">Natan Rybkowski</span>
-                    <span class="badge">1 projekt</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/3YqmFQNQMWX" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Anastazja Maciejewska">
-                <div class="card-header">
-                    <span class="student-name">Anastazja Maciejewska</span>
-                    <span class="badge">1 projekt</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/erTEXxA9Kbn" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Franek Konarski">
-                <div class="card-header">
-                    <span class="student-name">Franek Konarski</span>
-                    <span class="badge">1 projekt</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/fUXBhsDK9q3" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Kacper Ciećwierz">
-                <div class="card-header">
-                    <span class="student-name">Kacper Ciećwierz</span>
-                    <span class="badge">1 projekt</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/7cFqFmTAycG" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Kacper Olczak">
-                <div class="card-header">
-                    <span class="student-name">Kacper Olczak</span>
-                    <span class="badge">Projekty: 2</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/iQvXc8BFCac" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/9M2dgulATYM" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Maciej Piotrowski">
-                <div class="card-header">
-                    <span class="student-name">Maciej Piotrowski</span>
-                    <span class="badge">1 projekt</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/7P9XWDmPedc" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Nikola Bąk">
-                <div class="card-header">
-                    <span class="student-name">Nikola Bąk</span>
-                    <span class="badge">1 projekt</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/8IwMDWgU3l5" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Wiktor Orężak">
-                <div class="card-header">
-                    <span class="student-name">Wiktor Orężak</span>
-                    <span class="badge">Projekty: 2</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/bKfw8vuWu3q" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/lbVJBJT9Ycd" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Amelka Rakowska">
-                <div class="card-header">
-                    <span class="student-name">Amelka Rakowska</span>
-                    <span class="badge">Projekty: 2</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/g8qxIVzXRDj" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/4SXvzsj4XTy" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Aneta Kiełbus">
-                <div class="card-header">
-                    <span class="student-name">Aneta Kiełbus</span>
-                    <span class="badge">Projekty: 2</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/1oPpchvOaH9" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/cqH3HVe7BJ5" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Gabriela Niemiec">
-                <div class="card-header">
-                    <span class="student-name">Gabriela Niemiec</span>
-                    <span class="badge">Projekty: 2</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/1T1lxnShu1o" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/9SXvnXxyiY9" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Jagoda Kulesza">
-                <div class="card-header">
-                    <span class="student-name">Jagoda Kulesza</span>
-                    <span class="badge">Projekty: 2</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/8IR0rzcfpIP" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/2HtFZbCRjYT" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Julia Gałązka">
-                <div class="card-header">
-                    <span class="student-name">Julia Gałązka</span>
-                    <span class="badge">Projekty: 2</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/4STTHDCtt97" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/iX5f187fBg3" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Kacper Jesionowski">
-                <div class="card-header">
-                    <span class="student-name">Kacper Jesionowski</span>
-                    <span class="badge">1 projekt</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/bxKgWKygjup" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
-            <div class="student-card" data-name="Karol Rudnicki">
-                <div class="card-header">
-                    <span class="student-name">Karol Rudnicki</span>
-                    <span class="badge">Projekty: 2</span>
-                </div>
-                <div class="card-body">
-                    
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/8plXAkd2r9p" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                <div class="iframe-wrapper">
-                    <iframe width="450" height="280" src="https://www.tinkercad.com/embed/kNows3sR6o5" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-                </div>
-                </div>
-            </div>
+    <!-- Miejsce wyświetlania projektów -->
+    <div class="gallery-section">
+        <h2 class="student-name" id="display-name">Wybierz ucznia</h2>
+        <p class="student-info" id="display-counter">Ładowanie projektów...</p>
+        
+        <div class="projects-grid" id="projects-container">
+            <!-- Tutaj dynamicznie będą wstrzykiwane iframy -->
         </div>
-    </main>
+    </div>
+</div>
 
-    <footer>
-        <p>&copy; 2026 Szkoła Podstawowa. Wszelkie prawa zastrzeżone. Projekty zrealizowane w ramach zajęć komputerowych.</p>
-    </footer>
+<script>
+    // Baza danych uczniów wyciągnięta z dostarczonego dokumentu.
+    // Zamiast całych iframe'ów przechowujemy same kody ID projektów.
+    const studentsData = [
+        { name: "Damian Materski", ids: ["fKCftKgp6cq"] },
+        { name: "Gabriel Wichowski", ids: ["2XzJvpSOtSh", "iDMZxvlXLEu"] },
+        { name: "Hanna Łukasik", ids: ["4gvsNi8evmf"] },
+        { name: "Julia Guzik", ids: ["j6cVVycZXBX"] },
+        { name: "Julia Jagodzińska", ids: ["aP0mwqCMwuY"] },
+        { name: "Liwia Zdunek", ids: ["482CmAQ3uv9", "edoy4am3pvQ"] },
+        { name: "Maciej Siemiński", ids: ["2kFr3B9elBW"] },
+        { name: "Marlena Materska", ids: ["kSbIN9wrZdT", "akVCC8HqauC"] },
+        { name: "Martyna Cuper", ids: ["hfwfOZOzRDL"] },
+        { name: "Szymon Hałek", ids: ["kX03zdIh5aJ", "e0Fm8oXdxqU"] },
+        { name: "Natan Rybkowski", ids: ["3YqmFQNQMWX"] },
+        { name: "Anastazja Maciejewska", ids: ["erTEXxA9Kbn"] },
+        { name: "Franek Konarski", ids: ["fUXBhsDK9q3"] },
+        { name: "Kacper Ciećwierz", ids: ["7cFqFmTAycG"] },
+        { name: "Kacper Olczak", ids: ["iQvXc8BFCac", "9M2dgulATYM"] },
+        { name: "Maciej Piotrowski", ids: ["7P9XWDmPedc"] },
+        { name: "Nikola Bąk", ids: ["8IwMDWgU3l5"] },
+        { name: "Wiktor Orężak", ids: ["bKfw8vuWu3q", "lbVJBJT9Ycd"] },
+        { name: "Amelka Rakowska", ids: ["g8qxIVzXRDj", "4SXvzsj4XTy"] },
+        { name: "Aneta Kiełbus", ids: ["1oPpchvOaH9", "cqH3HVe7BJ5"] },
+        { name: "Gabriela Niemiec", ids: ["1T1lxnShu1o", "9SXvnXxyiY9"] },
+        { name: "Jagoda Kulesza", ids: ["8IR0rzcfpIP", "2HtFZbCRjYT"] },
+        { name: "Julia Gałązka", ids: ["4STTHDCtt97", "iX5f187fBg3"] },
+        { name: "Kacper Jesionowski", ids: ["bxKgWKygjup"] },
+        { name: "Karol Rudnicki", ids: ["8plXAkd2r9p", "kNows3sR6o5"] },
+        { name: "Klaudia Odolczyk", ids: ["gYGUxrJe6O2", "bzRFBLzM86k"] },
+        { name: "Liwia Sobota", ids: ["4ublHTnV23k", "8oyRlEnnEx1"] },
+        { name: "Magdalena Kakietek", ids: ["8sO6AVdRZJQ"] },
+        { name: "Mateusz jach", ids: ["he4SY36rKUt", "1tofj0EENIl"] },
+        { name: "Szymon Maleńczuk", ids: ["4b9K5pUiXTl", "6mhgYDIcuZV", "5ecZ8guZGyi", "bAtX9CuVozw", "8wqLbOSpCcy"] },
+        { name: "Adrian Zuchniewicz", ids: ["lOt3FSRvEt5"] },
+        { name: "Julian Gawronek", ids: ["88J0ZyNcrKC", "1GK3wXz86uN", "lTzAkUTjccy"] },
+        { name: "Kinga Gwiaździńska", ids: ["7GwEY0MEDHK"] },
+        { name: "Lena Grochowska", ids: ["1pIJKJvbpFn", "9n4RLhzTJSO"] },
+        { name: "Maja Wikary", ids: ["fQ8xtKD5JHm", "knqDzoQ6Rdx"] },
+        { name: "Mikołaj Pliszka", ids: ["1Eof1pDx3c2"] },
+        { name: "Oskar Niewiadomski", ids: ["c0XnWI9qpay", "8RvZP0MUUWq", "f7rpSzZMZAL", "ckwXh0WKeDn"] },
+        { name: "Radek Marczak", ids: ["ig28lc2ORA8", "ezto92prFTk", "iOPPxebHejN", "akCDIKT0V7Q"] },
+        { name: "Zuzanna Suchojad", ids: ["32MccRyAxi2", "fmvLPQSrCsp"] },
+        { name: "Łukasz Zuchniewicz", ids: ["iyvY2BJwBHV"] }
+    ];
 
-    <script>
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase().trim();
-            const cards = document.querySelectorAll('.student-card');
-            
-            cards.forEach(card => {
-                const name = card.getAttribute('data-name').toLowerCase();
-                if(name.includes(searchTerm)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+    let currentIndex = 0;
+
+    // Elementy DOM
+    const studentSelect = document.getElementById('student-select');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const displayName = document.getElementById('display-name');
+    const displayCounter = document.getElementById('display-counter');
+    const projectsContainer = document.getElementById('projects-container');
+
+    // Inicjalizacja listy rozwijanej
+    function initSelect() {
+        studentsData.forEach((student, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = student.name;
+            studentSelect.appendChild(option);
         });
-    </script>
+
+        studentSelect.addEventListener('change', (e) => {
+            currentIndex = parseInt(e.target.value);
+            renderStudent();
+        });
+    }
+
+    // Główna funkcja renderująca projekty ucznia
+    function renderStudent() {
+        const student = studentsData[currentIndex];
+        
+        // Aktualizacja tekstów
+        displayName.textContent = student.name;
+        studentSelect.value = currentIndex;
+        
+        const projectCountText = student.ids.length === 1 ? "1 projekt" : `${student.ids.length} projekty`;
+        displayCounter.textContent = `Wyświetlanie: Uczeń ${currentIndex + 1} z ${studentsData.length} (${projectCountText})`;
+
+        // Czyszczenie poprzednich projektów (Zwalnianie pamięci przeglądarki!)
+        projectsContainer.innerHTML = '';
+
+        // Generowanie nowych iframe'ów
+        student.ids.forEach(id => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'iframe-container';
+            
+            // Text wyświetlany zanim załaduje się 3D
+            const loader = document.createElement('div');
+            loader.className = 'loader';
+            loader.textContent = 'Ładowanie środowiska 3D...';
+            
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.tinkercad.com/embed/${id}`;
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('marginwidth', '0');
+            iframe.setAttribute('marginheight', '0');
+            iframe.setAttribute('scrolling', 'no');
+            // Ukrywa loader gdy iframe się wczyta
+            iframe.onload = () => { loader.style.display = 'none'; };
+
+            wrapper.appendChild(loader);
+            wrapper.appendChild(iframe);
+            projectsContainer.appendChild(wrapper);
+        });
+
+        // Aktualizacja stanu przycisków
+        btnPrev.disabled = currentIndex === 0;
+        btnNext.disabled = currentIndex === studentsData.length - 1;
+    }
+
+    // Obsługa przycisków
+    btnPrev.addEventListener('click', () => {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderStudent();
+        }
+    });
+
+    btnNext.addEventListener('click', () => {
+        if (currentIndex < studentsData.length - 1) {
+            currentIndex++;
+            renderStudent();
+        }
+    });
+
+    // Start aplikacji
+    initSelect();
+    renderStudent(); // Załaduj pierwszego ucznia na start
+</script>
+
 </body>
 </html>
